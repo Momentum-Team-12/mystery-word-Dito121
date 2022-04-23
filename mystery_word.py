@@ -22,12 +22,14 @@ def play_game():
 
         if len(guess) > 1:
             print(f"{guess} is an invalid guess, please guess one letter at a time.")
-            print(display)
+            print(display, '\n')
             continue
 
         if previous_guesses.get(guess) == 1:
             print("You have already guessed {}, please try again.".format(guess))
-            print(display)
+            print("Reminder: you have already guessed {}".format(
+                getList(previous_guesses.keys())))
+            print(display, '\n')
             continue
 
         previous_guesses[guess] = 1
@@ -35,7 +37,7 @@ def play_game():
         if guess not in mystery_word:
             print(f"{guess} is not in the mystery word.")
             guesses_remaining -= 1
-            print(display)
+            print(display, '\n')
             continue
 
         for i in range(len(display)):
@@ -43,17 +45,17 @@ def play_game():
                 display = display[:i] + guess + display[i+1:]
 
         print("You have guessed a letter in the mystery word!")
-        print(display)
+        print(display, '\n')
 
         if display == mystery_word:
-            print("Congratulations, you have uncovered the mystery word!")
+            print("Congratulations, you have uncovered the mystery word! \n")
             break
 
     if guesses_remaining == 0:
         print("Game Over, you have run out of guesses.")
-        print(f"The mystery word was {mystery_word}")
+        print(f"The mystery word was {mystery_word} \n")
 
-    play_again = input("Do you want to play again?")
+    play_again = input("Do you want to play again? ")
     if play_again.lower() == 'yes' or play_again.lower() == 'y':
         play_game()
 
