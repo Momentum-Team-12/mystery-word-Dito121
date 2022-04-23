@@ -2,12 +2,19 @@ import random
 
 
 def play_game():
-    random_word = get_random_word()
-    display = '_'*len(random_word)
+    difficulty = 'difficulty'
+    while True:
+        difficulty = input(
+            "Please choose your desired difficulty level. Your options are: \n easy: 4-6 letter word,\n normal: 6-8 letter word \n hard: 8+ letter word \n my difficulty choice: ")
+        if difficulty.lower() == 'easy' or difficulty.lower() == 'normal' or difficulty.lower() == 'hard':
+            break
+
+    mystery_word = get_mystery_word(difficulty)
+    display = '_'*len(mystery_word)
     guesses_remaining = 8
     previous_guesses = {}
 
-    print("The mystery word contains {} letters.".format(len(random_word)))
+    print("The mystery word contains {} letters.".format(len(mystery_word)))
 
     while guesses_remaining > 0:
         print("You have {} guesses remaining.".format(guesses_remaining))
@@ -25,34 +32,54 @@ def play_game():
 
         previous_guesses[guess] = 1
 
-        if guess not in random_word:
+        if guess not in mystery_word:
             print(f"{guess} is not in the mystery word.")
             guesses_remaining -= 1
             print(display)
             continue
 
         for i in range(len(display)):
-            if random_word[i] == guess:
+            if mystery_word[i] == guess:
                 display = display[:i] + guess + display[i+1:]
 
         print("You have guessed a letter in the mystery word!")
         print(display)
 
-        if display == random_word:
+        if display == mystery_word:
             print("Congratulations, you have uncovered the mystery word!")
             break
 
     if guesses_remaining == 0:
         print("Game Over, you have run out of guesses.")
-        print(f"The mystery word was {random_word}")
+        print(f"The mystery word was {mystery_word}")
+
+    play_again = input("Do you want to play again?")
+    if play_again.lower() == 'yes' or play_again.lower() == 'y':
+        play_game()
 
 
-def get_random_word():
+def get_mystery_word(difficulty):
     with open('words.txt', 'r') as f:
+        min = 0
+        max = 0
+        if difficulty == 'easy':
+            min = 4
+            max = 6
+        elif difficulty == 'normal':
+            min = 6
+            max = 8
+        else:
+            min = 8
+            max = 25
+
         lines = f.readlines()
-        line = lines[random.randint(0, len(lines) - 1)]
-        line = line.split()
-        return line[random.randint(0, len(line) - 1)].upper()
+        mystery_word = ''
+
+        while not min <= len(mystery_word) <= max:
+            line = lines[random.randint(0, len(lines) - 1)]
+            line = line.split()
+            mystery_word = line[random.randint(0, len(line) - 1)].upper()
+        return mystery_word
 
 
 if __name__ == "__main__":
