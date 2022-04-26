@@ -1,11 +1,12 @@
 import random
+# from colorama import init
+# init()
 
 
 def play_game():
     difficulty = 'difficulty'
     while True:
-        difficulty = input(
-            "Please choose your desired difficulty level. Your options are: \n easy: 4-6 letter word,\n normal: 6-8 letter word \n hard: 8+ letter word \n my difficulty choice: ")
+        difficulty = input("Please choose your desired difficulty level. Your options are: \n easy: 4-6 letter word,\n normal: 6-8 letter word \n hard: 8+ letter word \n my difficulty choice: ")
         if difficulty.lower() == 'easy' or difficulty.lower() == 'normal' or difficulty.lower() == 'hard':
             break
 
@@ -27,8 +28,6 @@ def play_game():
 
         if previous_guesses.get(guess) == 1:
             print("You have already guessed {}, please try again.".format(guess))
-            print("Reminder: you have already guessed {}".format(
-                getList(previous_guesses.keys())))
             print(display, '\n')
             continue
 
